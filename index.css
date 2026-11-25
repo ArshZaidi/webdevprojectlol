@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --graphite:#1C1D20;
+  --cloud:#F2F4F1;
+  --yellow:#FFC928;
+  --ink:#1C1D20;
+  --muted:#3A3D42;
+  --line:#DDE0DB;
+  --surface:#FFFFFF;
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+}
+/* Contrast fix: this app uses hardcoded white / light surfaces everywhere
+   (cards, modals, drawers, inputs). Flipping --ink to light in dark mode
+   made that text white-on-white. Keep the light palette in both modes so
+   light surfaces always get dark text. White text lives only on explicit
+   dark surfaces (graphite header/footer/panels, black buttons). */
+@media (prefers-color-scheme: dark){
+  :root{ --cloud:#F2F4F1; --surface:#FFFFFF; --line:#DDE0DB; --muted:#3A3D42; --ink:#1C1D20; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cloud);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6}
+.font-display{font-family:Fraunces,Georgia,serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{scrollbar-width:none}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* --- Global contrast pairings (after Tailwind utilities, so they win on ties) --- */
+/* Light surfaces: headings / body / labels are always dark ink. */
+.bg-white{color:#1C1D20}
+.bg-\[\#F2F4F1\]{color:#1C1D20}
+.bg-\[\#FFF8D6\]{color:#1C1D20}
+.bg-\[\#FFF3CD\]{color:#1C1D20}
+/* Yellow surfaces: text on yellow is always dark ink, never white / yellow. */
+[class*="--yellow"]{color:#1C1D20}
+/* Muted text used on white / light surfaces: the old #6B6E68 was too light. */
+.text-\[\#6B6E68\]{color:#3A3D42}
+/* Form controls sit on light backgrounds: dark text, darker placeholder. */
+input,select,textarea{color:#1C1D20}
+input::placeholder,textarea::placeholder{color:#6B6E75;opacity:1}
+select option{color:#1C1D20;background:#FFFFFF}
+/* Disabled controls must stay readable on light backgrounds. */
+button:disabled{color:#6B6E75}
